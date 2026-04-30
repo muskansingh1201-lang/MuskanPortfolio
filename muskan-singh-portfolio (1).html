@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muskan Singh — Assistant Director & Video Producer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0A0A0A;
+    --charcoal: #141414;
+    --surface: #1A1A1A;
+    --surface2: #222222;
+    --warm-white: #F0EDE8;
+    --muted: #888480;
+    --accent: #C1121F;
+    --accent2: #E63946;
+    --gold: #B8963E;
+    --border: rgba(255,255,255,0.07);
+    --border-accent: rgba(193,18,31,0.4);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--warm-white);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ── CUSTOM CURSOR ── */
+  .cursor {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transition: transform 0.1s ease;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    width: 32px; height: 32px;
+    border: 1px solid rgba(193,18,31,0.5);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    transition: all 0.25s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  body:hover .cursor { opacity: 1; }
+
+  /* ── LOADING SCREEN ── */
+  #loader {
+    position: fixed; inset: 0;
+    background: var(--black);
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+  }
+  #loader.fade-out { opacity: 0; visibility: hidden; }
+  .loader-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 8vw, 96px);
+    letter-spacing: 0.12em;
+    color: var(--warm-white);
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.3s forwards;
+  }
+  .loader-bar-wrap {
+    width: 200px; height: 1px;
+    background: var(--border);
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeUp 0.5s ease 0.8s forwards;
+  }
+  .loader-bar {
+    height: 100%;
+    width: 0;
+    background: var(--accent);
+    animation: loadBar 1.5s cubic-bezier(0.4,0,0.2,1) 0.9s forwards;
+  }
+  .loader-sub {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0;
+    animation: fadeUp 0.5s ease 1s forwards;
+  }
+  @keyframes loadBar { to { width: 100%; } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* ── FILM GRAIN ── */
+  .grain {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 100;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 500;
+    padding: 24px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.4s ease, padding 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(20px);
+    padding: 16px 60px;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.1em;
+    color: var(--warm-white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--warm-white); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--warm-white);
+    border: 1px solid var(--accent);
+    padding: 10px 24px;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .nav-cta:hover { background: var(--accent); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 60px 80px;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 70% 40%, rgba(193,18,31,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 20% 80%, rgba(193,18,31,0.05) 0%, transparent 60%),
+      linear-gradient(180deg, rgba(10,10,10,0) 0%, rgba(10,10,10,0.4) 60%, var(--black) 100%),
+      var(--charcoal);
+  }
+  .hero-video-bg {
+    display: none;
+  }
+
+  .hero-number {
+    position: absolute;
+    right: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(180px, 25vw, 320px);
+    line-height: 1;
+    color: rgba(255,255,255,0.025);
+    letter-spacing: -0.02em;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    position: relative; z-index: 2;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 2.5s forwards;
+  }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 11vw, 148px);
+    line-height: 0.92;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    position: relative; z-index: 2;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 2.7s forwards;
+  }
+  .hero-title .line2 {
+    display: block;
+    padding-left: 80px;
+    -webkit-text-stroke: 1px rgba(240,237,232,0.3);
+    color: transparent;
+  }
+  .hero-title .line3 {
+    display: block;
+    color: var(--accent);
+  }
+  .hero-subtitle {
+    max-width: 480px;
+    font-size: 14px;
+    line-height: 1.8;
+    color: rgba(240,237,232,0.6);
+    margin-top: 32px;
+    position: relative; z-index: 2;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 3s forwards;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 20px;
+    margin-top: 48px;
+    align-items: center;
+    position: relative; z-index: 2;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 3.2s forwards;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--warm-white);
+    padding: 16px 40px;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(255,255,255,0.1);
+    transform: translateX(-100%);
+    transition: transform 0.4s ease;
+  }
+  .btn-primary:hover::before { transform: translateX(0); }
+  .btn-ghost {
+    color: var(--warm-white);
+    padding: 16px 40px;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.04); }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px; right: 60px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    z-index: 2;
+    opacity: 0;
+    animation: fadeIn 1s ease 3.5s forwards;
+  }
+  .scroll-line {
+    width: 40px; height: 1px;
+    background: var(--muted);
+    position: relative;
+    overflow: hidden;
+  }
+  .scroll-line::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--accent);
+    animation: scrollPulse 2s ease infinite;
+  }
+  @keyframes scrollPulse {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 120px 60px; }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-label::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--accent);
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 6vw, 80px);
+    line-height: 0.95;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    margin-bottom: 60px;
+  }
+
+  /* ── ABOUT ── */
+  #about { background: var(--charcoal); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .about-visual {
+    position: relative;
+  }
+  .about-img-placeholder {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: var(--surface);
+    position: relative;
+    overflow: hidden;
+  }
+  .about-img-placeholder::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(193,18,31,0.15) 0%, transparent 60%);
+  }
+  .about-img-inner {
+    position: absolute; inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .initials-big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 120px;
+    line-height: 1;
+    color: rgba(240,237,232,0.06);
+    letter-spacing: 0.05em;
+  }
+  .about-img-label {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 24px;
+    background: linear-gradient(0deg, rgba(10,10,10,0.9), transparent);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .about-tag {
+    position: absolute;
+    top: 24px; right: -20px;
+    background: var(--accent);
+    padding: 12px 20px;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: white;
+    font-weight: 500;
+  }
+  .about-border-deco {
+    position: absolute;
+    top: -12px; left: -12px;
+    width: 60%; height: 60%;
+    border-top: 1px solid var(--border-accent);
+    border-left: 1px solid var(--border-accent);
+  }
+  .about-text h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 3.5vw, 42px);
+    font-weight: 300;
+    line-height: 1.3;
+    margin-bottom: 28px;
+    color: var(--warm-white);
+  }
+  .about-text h2 em { font-style: italic; color: rgba(240,237,232,0.6); }
+  .about-text p {
+    font-size: 15px;
+    line-height: 1.9;
+    color: rgba(240,237,232,0.65);
+    margin-bottom: 20px;
+  }
+  .about-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 40px;
+  }
+  .about-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .about-meta-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .about-meta-value {
+    font-size: 14px;
+    color: var(--warm-white);
+    font-weight: 500;
+  }
+  .about-divider {
+    width: 1px;
+    height: 40px;
+    background: var(--border);
+    align-self: center;
+  }
+
+  /* ── EXPERIENCE ── */
+  #experience { background: var(--black); }
+  .exp-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; }
+  .exp-card {
+    background: var(--charcoal);
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s;
+    cursor: default;
+  }
+  .exp-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 2px; height: 0;
+    background: var(--accent);
+    transition: height 0.4s ease;
+  }
+  .exp-card:hover { background: var(--surface); }
+  .exp-card:hover::before { height: 100%; }
+  .exp-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    line-height: 1;
+    color: rgba(255,255,255,0.04);
+    position: absolute;
+    top: 20px; right: 24px;
+    letter-spacing: -0.02em;
+  }
+  .exp-period {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+  .exp-company {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--warm-white);
+    margin-bottom: 8px;
+    line-height: 1;
+  }
+  .exp-role {
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .exp-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .exp-list li {
+    font-size: 13px;
+    line-height: 1.6;
+    color: rgba(240,237,232,0.55);
+    padding-left: 16px;
+    position: relative;
+  }
+  .exp-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 10px;
+  }
+
+  /* ── PROJECTS ── */
+  #projects { background: var(--charcoal); }
+  .projects-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 60px;
+  }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .project-card {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4/5;
+    background: var(--surface);
+    cursor: pointer;
+    group: true;
+  }
+  .project-thumb {
+    position: absolute; inset: 0;
+    transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  .project-card:hover .project-thumb { transform: scale(1.06); }
+  .project-bg {
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .project-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(0deg, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.4) 50%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 32px;
+    transition: all 0.4s ease;
+  }
+  .project-card:hover .project-overlay {
+    background: linear-gradient(0deg, rgba(10,10,10,0.98) 0%, rgba(10,10,10,0.7) 60%, rgba(193,18,31,0.1) 100%);
+  }
+  .project-cat {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .project-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .project-role-tag {
+    font-size: 11px;
+    color: rgba(240,237,232,0.5);
+    margin-bottom: 16px;
+  }
+  .project-desc {
+    font-size: 12px;
+    line-height: 1.7;
+    color: rgba(240,237,232,0.6);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+    opacity: 0;
+  }
+  .project-card:hover .project-desc { max-height: 80px; opacity: 1; }
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    margin-top: 16px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.4s ease 0.1s;
+  }
+  .project-card:hover .project-link { opacity: 1; transform: translateY(0); }
+  .project-link::after {
+    content: '→';
+    transition: transform 0.3s;
+  }
+  .project-link:hover::after { transform: translateX(4px); }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--black); }
+  .skills-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .skills-intro p {
+    font-size: 15px;
+    line-height: 1.9;
+    color: rgba(240,237,232,0.6);
+  }
+  .skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .skill-tag {
+    padding: 10px 20px;
+    border: 1px solid var(--border);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(240,237,232,0.65);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .skill-tag::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--accent);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: -1;
+  }
+  .skill-tag:hover {
+    border-color: var(--accent);
+    color: white;
+  }
+  .skill-tag:hover::before { transform: translateX(0); }
+  .skill-highlight {
+    margin-top: 48px;
+    padding: 32px;
+    border: 1px solid var(--border-accent);
+    background: rgba(193,18,31,0.04);
+  }
+  .skill-highlight-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .skill-highlight-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    line-height: 1.5;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(240,237,232,0.8);
+  }
+
+  /* ── CERTIFICATIONS ── */
+  #certifications { background: var(--charcoal); }
+  .cert-list { display: flex; flex-direction: column; gap: 2px; }
+  .cert-item {
+    padding: 32px 40px;
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    transition: background 0.3s;
+  }
+  .cert-item:hover { background: var(--surface2); }
+  .cert-index {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: rgba(255,255,255,0.1);
+    min-width: 40px;
+  }
+  .cert-info { flex: 1; }
+  .cert-org {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .cert-name {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--warm-white);
+  }
+  .cert-arrow {
+    font-size: 18px;
+    color: var(--muted);
+    transition: transform 0.3s, color 0.3s;
+  }
+  .cert-item:hover .cert-arrow { transform: translateX(6px); color: var(--accent); }
+
+  /* ── EDUCATION ── */
+  #education { background: var(--black); }
+  .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .edu-card {
+    padding: 48px;
+    background: var(--charcoal);
+    position: relative;
+    overflow: hidden;
+  }
+  .edu-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .edu-card:hover::after { transform: scaleX(1); }
+  .edu-years {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+  .edu-school {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    line-height: 1.1;
+  }
+  .edu-degree {
+    font-size: 13px;
+    color: rgba(240,237,232,0.55);
+    line-height: 1.6;
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--charcoal);
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-bg-text {
+    position: absolute;
+    bottom: -20px;
+    left: -10px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(120px, 20vw, 240px);
+    color: rgba(255,255,255,0.02);
+    letter-spacing: 0.05em;
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 100px;
+    align-items: center;
+    position: relative;
+  }
+  .contact-intro h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(56px, 7vw, 96px);
+    line-height: 0.95;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .contact-intro p {
+    font-size: 15px;
+    line-height: 1.9;
+    color: rgba(240,237,232,0.6);
+    max-width: 400px;
+  }
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .contact-link-item {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
+    transition: all 0.3s;
+    group: true;
+  }
+  .contact-link-item:first-child { border-top: 1px solid var(--border); }
+  .contact-link-item:hover { padding-left: 8px; }
+  .contact-link-type {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    width: 80px;
+  }
+  .contact-link-value {
+    font-size: 14px;
+    color: var(--warm-white);
+    flex: 1;
+    padding: 0 20px;
+    transition: color 0.3s;
+  }
+  .contact-link-item:hover .contact-link-value { color: var(--accent); }
+  .contact-link-arrow {
+    font-size: 16px;
+    color: var(--muted);
+    transition: transform 0.3s, color 0.3s;
+  }
+  .contact-link-item:hover .contact-link-arrow { transform: translate(4px, -4px); color: var(--accent); }
+  .contact-lang {
+    margin-top: 48px;
+    display: flex;
+    gap: 24px;
+  }
+  .lang-badge {
+    padding: 8px 20px;
+    border: 1px solid var(--border);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black);
+    padding: 40px 60px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.12em;
+    color: rgba(240,237,232,0.4);
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-copy {
+    font-size: 11px;
+    color: rgba(240,237,232,0.25);
+    letter-spacing: 0.1em;
+    text-align: center;
+  }
+  .footer-location {
+    font-size: 11px;
+    color: rgba(240,237,232,0.3);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .footer-location::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s ease infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.6); }
+  }
+
+  /* ── ANIMATIONS ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal-left.visible { opacity: 1; transform: translateX(0); }
+
+  .footer-logo { text-decoration: none; }
+  .footer-location { text-decoration: none; }
+  .footer-location:hover { color: var(--accent); }
+  .project-thumb img {
+    transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .project-card:hover .project-thumb img { transform: scale(1.06); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    nav { padding: 20px 32px; }
+    nav.scrolled { padding: 14px 32px; }
+    section { padding: 80px 32px; }
+    #hero { padding: 0 32px 60px; }
+    .about-grid { grid-template-columns: 1fr; gap: 48px; }
+    .about-visual { max-width: 400px; }
+    .exp-grid { grid-template-columns: 1fr; }
+    .projects-grid { grid-template-columns: 1fr 1fr; }
+    .skills-layout { grid-template-columns: 1fr; gap: 48px; }
+    .edu-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; gap: 60px; }
+    .nav-links { display: none; }
+    footer { flex-direction: column; gap: 20px; text-align: center; }
+  }
+
+  @media (max-width: 640px) {
+    .projects-grid { grid-template-columns: 1fr; }
+    .hero-title .line2 { padding-left: 30px; }
+    .exp-card { padding: 32px 24px; }
+    .cert-item { padding: 24px 20px; flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- GRAIN -->
+<div class="grain"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-name">MUSKAN SINGH</div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  <div class="loader-sub">Loading Portfolio</div>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">MS<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Let's Work</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-video-bg"></div>
+  <div class="hero-number">01</div>
+
+  <div class="hero-eyebrow">New Delhi, India &nbsp;·&nbsp; Available for Projects</div>
+
+  <h1 class="hero-title">
+    Merging<br>
+    <span class="line2">Cinematic</span>
+    <span class="line3">Storytelling</span>
+  </h1>
+
+  <p class="hero-subtitle">
+    Crafting narratives through camera, direction, and production excellence.
+  </p>
+
+  <div class="hero-actions">
+    <a href="#projects" class="btn-primary">View Projects</a>
+    <a href="#contact" class="btn-ghost">Contact Me</a>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">01 — About</div>
+  <div class="about-grid">
+    <div class="about-visual reveal-left">
+      <div class="about-border-deco"></div>
+      <div class="about-img-placeholder" style="background:#111;">
+        <img src="/mnt/user-data/uploads/WhatsApp_Image_2026-04-30_at_13_56_47__1_.jpeg"
+          alt="Muskan Singh"
+          style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+      </div>
+      <div class="about-tag">3 Years Experience</div>
+    </div>
+    <div class="about-text reveal">
+      <h2>A storyteller with <em>a lens and a vision.</em></h2>
+      <p>
+        I am a creative and driven media professional with nearly 3 years of experience in directing, producing, and managing multi-camera productions, live broadcasts, podcasts, studio shoots, and brand campaigns.
+      </p>
+      <p>
+        I specialize in end-to-end production workflows, creative storytelling, live production management, and visual direction. My experience spans studio productions, outdoor shoots, branded campaigns, webinars, podcasts, and event coverage.
+      </p>
+      <p>
+        I push creative boundaries while maintaining strong coordination between teams and clients — bringing cinematic thinking and production excellence to every project.
+      </p>
+      <div class="about-meta">
+        <div class="about-meta-item">
+          <span class="about-meta-label">Location</span>
+          <span class="about-meta-value">New Delhi, India</span>
+        </div>
+        <div class="about-divider"></div>
+        <div class="about-meta-item">
+          <span class="about-meta-label">Languages</span>
+          <span class="about-meta-value">English · Hindi</span>
+        </div>
+        <div class="about-divider"></div>
+        <div class="about-meta-item">
+          <span class="about-meta-label">Specialization</span>
+          <span class="about-meta-value">Direction & Production</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">02 — Experience</div>
+  <h2 class="section-title">Where I've<br>Worked</h2>
+  <div class="exp-grid">
+    <div class="exp-card reveal">
+      <div class="exp-number">01</div>
+      <div class="exp-period">Jan 2025 — Mar 2026</div>
+      <div class="exp-company">Marwah<br>Studios</div>
+      <div class="exp-role">Asst. Director of Production & Creative Operations</div>
+      <ul class="exp-list">
+        <li>Led production teams across studio and outdoor shoots</li>
+        <li>Managed podcasts, webinars, and live productions</li>
+        <li>Operated ATEM Mini Pro for live switching</li>
+        <li>Managed live broadcasts and technical execution</li>
+        <li>Covered TEDx events and studio productions</li>
+        <li>Multi-camera setup coordination</li>
+      </ul>
+    </div>
+    <div class="exp-card reveal" style="transition-delay: 0.1s;">
+      <div class="exp-number">02</div>
+      <div class="exp-period">Aug 2024 — Dec 2024</div>
+      <div class="exp-company">The Boss<br>Hub</div>
+      <div class="exp-role">AD / Executive Producer</div>
+      <ul class="exp-list">
+        <li>Directed visual campaigns for multiple brands</li>
+        <li>Managed client communication and creative execution</li>
+        <li>Worked on Shark Tank-featured brand campaigns</li>
+        <li>Coordinated with creative teams and designers</li>
+        <li>Oversaw production planning and visual consistency</li>
+      </ul>
+    </div>
+    <div class="exp-card reveal" style="transition-delay: 0.2s;">
+      <div class="exp-number">03</div>
+      <div class="exp-period">Feb 2024 — Jul 2024</div>
+      <div class="exp-company">Matar<br>Media</div>
+      <div class="exp-role">Video Producer</div>
+      <ul class="exp-list">
+        <li>Assisted in studio and outdoor productions</li>
+        <li>Managed crew communication and coordination</li>
+        <li>Supported shoot execution and production planning</li>
+        <li>Supported direction and technical workflows</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="projects-header">
+    <div>
+      <div class="section-label">03 — Work</div>
+      <h2 class="section-title">Featured<br>Projects</h2>
+    </div>
+    <a href="https://www.behance.net/muskansingh101" target="_blank" rel="noopener" class="btn-ghost" style="margin-bottom: 8px; white-space: nowrap;">View on Behance ↗</a>
+  </div>
+  <div class="projects-grid">
+
+    <!-- 1: Promo -->
+    <div class="project-card reveal">
+      <div class="project-thumb">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/1aa794246847615.Y3JvcCwxMzgwLDEwODAsMjcwLDA.png"
+          alt="Promo" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="project-overlay">
+        <div class="project-cat">Video Production</div>
+        <div class="project-name">Promo</div>
+        <div class="project-role-tag">Video Producer · Director</div>
+        <div class="project-desc">A polished promotional production showcasing end-to-end video production, direction, and visual storytelling.</div>
+        <a class="project-link" href="https://www.behance.net/gallery/246847615/Promo" target="_blank" rel="noopener">View Project</a>
+      </div>
+    </div>
+
+    <!-- 2: Prahlad Kakar -->
+    <div class="project-card reveal" style="transition-delay: 0.1s;">
+      <div class="project-thumb">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/3c1610246561875.Y3JvcCw5MjAsNzIwLDE4MCww.jpg"
+          alt="In conversation with OG Adman Prahlad Kakar" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="project-overlay">
+        <div class="project-cat">Podcast · Interview</div>
+        <div class="project-name">In Conversation<br>with Prahlad Kakar</div>
+        <div class="project-role-tag">Video Producer · Studio Direction</div>
+        <div class="project-desc">Studio interview production with OG Adman Prahlad Kakar — set design, multi-camera direction, and post-production.</div>
+        <a class="project-link" href="https://www.behance.net/gallery/246561875/In-conversation-with-OG-Adman-Prahlad-Kakar" target="_blank" rel="noopener">View Project</a>
+      </div>
+    </div>
+
+    <!-- 3: Charuvi Agrawal -->
+    <div class="project-card reveal" style="transition-delay: 0.2s;">
+      <div class="project-thumb">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/c0626c246842277.Y3JvcCw5MjAsNzIwLDE4MCww.jpg"
+          alt="In Conversation With Charuvi Agrawal" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="project-overlay">
+        <div class="project-cat">Podcast · Interview</div>
+        <div class="project-name">In Conversation<br>with Charuvi Agrawal</div>
+        <div class="project-role-tag">Video Producer · Director</div>
+        <div class="project-desc">In-depth podcast interview with artist and creative Charuvi Agrawal — full studio production and direction.</div>
+        <a class="project-link" href="https://www.behance.net/gallery/246842277/In-Conversation-With-Charuvi-Agrawal" target="_blank" rel="noopener">View Project</a>
+      </div>
+    </div>
+
+    <!-- 4: Nikkhil Beri -->
+    <div class="project-card reveal" style="transition-delay: 0.1s;">
+      <div class="project-thumb">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/ca2c4b246562645.Y3JvcCw5MjAsNzIwLDE4MCww.jpg"
+          alt="Podcast of Grammy Award Winning Producer Nikkhil Beri" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="project-overlay">
+        <div class="project-cat">Podcast Production</div>
+        <div class="project-name">Podcast with<br>Nikkhil Beri</div>
+        <div class="project-role-tag">Producer · Technical Director</div>
+        <div class="project-desc">Podcast production featuring Grammy Award-winning music producer Nikkhil Beri — high-profile studio setup and execution.</div>
+        <a class="project-link" href="https://www.behance.net/gallery/246562645/Podcast-of-Grammy-Award-Winning-Producer-Nikkhil-Beri" target="_blank" rel="noopener">View Project</a>
+      </div>
+    </div>
+
+    <!-- 5: Light and Shadow -->
+    <div class="project-card reveal" style="transition-delay: 0.2s;">
+      <div class="project-thumb">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/68be2a204783909.Y3JvcCwxNjM2LDEyODAsMTQxLDA.jpg"
+          alt="A game of light and Shadow" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="project-overlay">
+        <div class="project-cat">Photography · Visual Art</div>
+        <div class="project-name">A Game of Light<br>&amp; Shadow</div>
+        <div class="project-role-tag">Photographer · Visual Director</div>
+        <div class="project-desc">A visual exploration of contrast, drama, and cinematic lighting — showcasing mastery of shadow play and composition.</div>
+        <a class="project-link" href="https://www.behance.net/gallery/204783909/A-game-of-light-and-Shadow" target="_blank" rel="noopener">View Project</a>
+      </div>
+    </div>
+
+    <!-- 6: Product Photography -->
+    <div class="project-card reveal" style="transition-delay: 0.3s;">
+      <div class="project-thumb">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/f81b2f204782679.Y3JvcCwxNjM2LDEyODAsMTQxLDA.jpg"
+          alt="Product Photography" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="project-overlay">
+        <div class="project-cat">Brand · Photography</div>
+        <div class="project-name">Product<br>Photography</div>
+        <div class="project-role-tag">Photographer · Creative Director</div>
+        <div class="project-desc">Styled product photography for brand campaigns — art direction, set styling, lighting, and post-processing.</div>
+        <a class="project-link" href="https://www.behance.net/gallery/204782679/Product-Photography" target="_blank" rel="noopener">View Project</a>
+      </div>
+    </div>
+
+    <!-- 7: Shades of a city — spans full width -->
+    <div class="project-card reveal" style="grid-column: 1 / -1; aspect-ratio: 21/9; transition-delay: 0.15s;">
+      <div class="project-thumb" style="height:100%;">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/38a414193998307.Y3JvcCw0MTg5LDMyNzcsODE5LDA.jpg"
+          alt="Shades of a city" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="project-overlay">
+        <div class="project-cat">Street · Documentary Photography</div>
+        <div class="project-name">Shades of a City</div>
+        <div class="project-role-tag">Photographer · Visual Storyteller</div>
+        <div class="project-desc">A documentary street photography series capturing the layered moods and textures of urban life — Muskan's most-appreciated project on Behance.</div>
+        <a class="project-link" href="https://www.behance.net/gallery/193998307/Shades-of-a-city" target="_blank" rel="noopener">View Project</a>
+      </div>
+    </div>
+
+  </div>
+  <div style="text-align:center; margin-top: 40px;">
+    <a href="https://www.behance.net/muskansingh101" target="_blank" rel="noopener" class="btn-ghost">
+      See Full Portfolio on Behance ↗
+    </a>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">04 — Expertise</div>
+  <h2 class="section-title">Skills &<br>Craft</h2>
+  <div class="skills-layout">
+    <div class="skills-intro reveal-left">
+      <p>
+        A multidisciplinary media professional whose toolkit spans the full spectrum of production — from pre-production planning to live broadcast execution.
+      </p>
+      <div class="skill-highlight">
+        <div class="skill-highlight-label">Technical Specialty</div>
+        <div class="skill-highlight-text">"Proficient in ATEM Mini Pro live switching and multi-camera production workflows."</div>
+      </div>
+    </div>
+    <div class="skills-grid reveal">
+      <div class="skill-tag">Video Production</div>
+      <div class="skill-tag">Assistant Direction</div>
+      <div class="skill-tag">Creative Direction</div>
+      <div class="skill-tag">Multi-Camera</div>
+      <div class="skill-tag">Live Broadcasts</div>
+      <div class="skill-tag">Podcast Production</div>
+      <div class="skill-tag">Brand Campaigns</div>
+      <div class="skill-tag">Production Mgmt</div>
+      <div class="skill-tag">Client Coordination</div>
+      <div class="skill-tag">Visual Storytelling</div>
+      <div class="skill-tag">Team Leadership</div>
+      <div class="skill-tag">ATEM Mini Pro</div>
+      <div class="skill-tag">Live Switching</div>
+      <div class="skill-tag">Event Coverage</div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-label">05 — Recognition</div>
+  <h2 class="section-title">Certifications<br>& Awards</h2>
+  <div class="cert-list reveal">
+    <div class="cert-item">
+      <div class="cert-index">01</div>
+      <div class="cert-info">
+        <div class="cert-org">DBIMA Paris</div>
+        <div class="cert-name">Cinematography &amp; Direction Classes</div>
+      </div>
+      <div class="cert-arrow">↗</div>
+    </div>
+    <div class="cert-item">
+      <div class="cert-index">02</div>
+      <div class="cert-info">
+        <div class="cert-org">Coursera</div>
+        <div class="cert-name">Branding &amp; Marketing Strategy</div>
+      </div>
+      <div class="cert-arrow">↗</div>
+    </div>
+    <div class="cert-item">
+      <div class="cert-index">03</div>
+      <div class="cert-info">
+        <div class="cert-org">Mumbai Police</div>
+        <div class="cert-name">Certificate of Appreciation — Social Awareness Project</div>
+      </div>
+      <div class="cert-arrow">↗</div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-label">06 — Education</div>
+  <h2 class="section-title">Academic<br>Background</h2>
+  <div class="edu-grid reveal">
+    <div class="edu-card">
+      <div class="edu-years">2022 — 2023</div>
+      <div class="edu-school">St. Xavier's College,<br>Mumbai</div>
+      <div class="edu-degree">Postgraduate Degree<br>Filmmaking &amp; Digital Video Production</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-years">2019 — 2022</div>
+      <div class="edu-school">Institute of Home<br>Economics, Delhi</div>
+      <div class="edu-degree">Bachelor's Degree<br>Journalism &amp; Mass Communication</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-bg-text">CONTACT</div>
+  <div class="contact-grid">
+    <div class="contact-intro reveal-left">
+      <div class="section-label">07 — Contact</div>
+      <h2>Let's Make<br>Something<br>Great.</h2>
+      <p>
+        Open to production collaborations, assistant direction roles, executive producer opportunities, and brand campaign projects across India and internationally.
+      </p>
+      <div class="contact-lang">
+        <span class="lang-badge">English</span>
+        <span class="lang-badge">Hindi</span>
+      </div>
+    </div>
+    <div class="contact-links reveal">
+      <a href="mailto:muskansingh1201@gmail.com" class="contact-link-item">
+        <span class="contact-link-type">Email</span>
+        <span class="contact-link-value">muskansingh1201@gmail.com</span>
+        <span class="contact-link-arrow">↗</span>
+      </a>
+      <a href="tel:+918510042109" class="contact-link-item">
+        <span class="contact-link-type">Phone</span>
+        <span class="contact-link-value">+91-8510042109</span>
+        <span class="contact-link-arrow">↗</span>
+      </a>
+      <div class="contact-link-item" style="cursor: default;">
+        <span class="contact-link-type">Location</span>
+        <span class="contact-link-value">New Delhi, India</span>
+        <span class="contact-link-arrow" style="opacity:0.3;">—</span>
+      </div>
+      <div class="contact-link-item" style="cursor: default;">
+        <span class="contact-link-type">Status</span>
+        <span class="contact-link-value" style="color: var(--accent);">Available for Work</span>
+        <span class="contact-link-arrow" style="opacity:0.3;">—</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#hero" class="footer-logo">MS<span>.</span></a>
+  <div class="footer-copy">© 2026 Muskan Singh · All rights reserved</div>
+  <a href="#contact" class="footer-location">New Delhi, India</a>
+</footer>
+
+<script>
+  // Loader
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('loader').classList.add('fade-out');
+    }, 2600);
+  });
+
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.transform = `translate(${mx - 4}px, ${my - 4}px)`;
+  });
+  function animateRing() {
+    rx += (mx - rx - 16) * 0.12;
+    ry += (my - ry - 16) * 0.12;
+    ring.style.transform = `translate(${rx}px, ${ry}px)`;
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button, .project-card, .cert-item, .skill-tag').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform += ' scale(2.5)';
+      ring.style.width = '48px'; ring.style.height = '48px';
+      ring.style.borderColor = 'rgba(193,18,31,0.8)';
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.style.width = '32px'; ring.style.height = '32px';
+      ring.style.borderColor = 'rgba(193,18,31,0.5)';
+    });
+  });
+
+  // Navbar scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 80);
+  });
+
+  // ── SMOOTH SCROLL with nav offset for ALL internal anchor links ──
+  function smoothScrollTo(targetId) {
+    const target = document.getElementById(targetId);
+    if (!target) return;
+    const navHeight = navbar.getBoundingClientRect().height;
+    const targetTop = target.getBoundingClientRect().top + window.scrollY - navHeight;
+    window.scrollTo({ top: targetTop, behavior: 'smooth' });
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      const href = link.getAttribute('href');
+      if (href === '#' || href.length <= 1) return;
+      const targetId = href.slice(1);
+      const target = document.getElementById(targetId);
+      if (!target) return;
+      e.preventDefault();
+      smoothScrollTo(targetId);
+      // Update URL hash without jumping
+      history.pushState(null, '', href);
+    });
+  });
+
+  // Reveal on scroll
+  const revealEls = document.querySelectorAll('.reveal, .reveal-left');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+  revealEls.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
